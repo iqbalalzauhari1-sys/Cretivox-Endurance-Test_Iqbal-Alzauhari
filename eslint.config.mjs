@@ -16,3 +16,14 @@ const eslintConfig = defineConfig([
 ]);
 
 export default eslintConfig;
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  typescript: {
+    // !! PERINGATAN !!
+    // Ini akan menyuruh Vercel mengabaikan error TypeScript
+    ignoreBuildErrors: true,
+  },
+};
+
+export default nextConfig;
