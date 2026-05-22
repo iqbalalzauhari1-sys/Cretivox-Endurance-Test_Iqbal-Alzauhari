@@ -5,10 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 
-import fotoKiri from '../public/fierce-kiri.jpg';
-import fotoDepan from '../public/fierce-depan.jpg';
-import fotoKanan from '../public/fierce-kanan.jpg';
-
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -116,6 +112,8 @@ export default function PortfolioPage() {
           width={200} 
           height={45} 
           className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+          unoptimized={true} // Mencegah Vercel memproses gambar
+          priority={true} // Memuat gambar ini paling awal
         />
       </div>
 
@@ -179,31 +177,15 @@ export default function PortfolioPage() {
         <div className="max-w-7xl mx-auto w-full">
           <h2 className={`${montserrat.className} text-4xl font-bold mb-16 text-center text-balance text-emerald-400`}>My 3 Fierce Sides</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[
-              { posisi: 'Kiri', src: fotoKiri },
-              { posisi: 'Depan', src: fotoDepan },
-              { posisi: 'Kanan', src: fotoKanan }
+              { posisi: 'Kiri', src: '/fierce-kiri.jpg' },
+              { posisi: 'Depan', src: '/fierce-depan.jpg' },
+              { posisi: 'Kanan', src: '/fierce-kanan.jpg' }
             ].map((foto, i) => (
               <div
                 key={i}
-                className={`${montserrat.className} gallery-item group relative aspect-[9/16] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 border border-emerald-800/50`}
-                style={{
-                  boxShadow: '0 0 20px rgba(16,185,129,0.2)',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.boxShadow = '0 0 40px rgba(6, 78, 59, 0.8), 0 0 60px rgba(16, 185, 129, 0.4)';
-                  el.style.transform = 'scale(1.02)';
-                  el.style.borderColor = 'rgba(16,185,129,0.8)';
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.boxShadow = '0 0 20px rgba(16,185,129,0.2)';
-                  el.style.transform = 'scale(1)';
-                  el.style.borderColor = 'rgba(6, 78, 59, 0.5)';
-                }}
+                className={`${montserrat.className} gallery-item group relative aspect-[3/4] md:aspect-[4/5] lg:aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 border border-emerald-800/50 shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_40px_rgba(6,78,59,0.8),0_0_60px_rgba(16,185,129,0.4)] hover:scale-[1.03] hover:border-emerald-500/80 hover:z-10`}
               >
                 <div className="w-full h-full bg-zinc-900 flex items-center justify-center relative">
                   
@@ -211,12 +193,16 @@ export default function PortfolioPage() {
                     src={foto.src} 
                     alt={`Foto Sisi ${foto.posisi}`} 
                     fill 
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105" 
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                    unoptimized={true} 
+                    priority={true} 
                   />
                   
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <p className={`${montserrat.className} text-2xl font-bold text-emerald-400 drop-shadow-md`}>Sisi {foto.posisi}</p>
+                    <p className={`${montserrat.className} text-2xl font-bold text-emerald-400 drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300`}>
+                      Sisi {foto.posisi}
+                    </p>
                   </div>
 
                 </div>
